@@ -1,43 +1,44 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int[] array = {0, 1, 0, 0, 0, 3, 0, 0, 5, 0};
+        int[] array = {0,0,1, 1,1, 0, 0, 5, 3, 0, 0, 5};
 
-        System.out.println("Enter array size.");
-        printEvenIndexValues(scanner.nextInt());
-
-        System.out.println("Enter array size.");
-        printElementsWithEvenValue(scanner.nextInt());
-
-        printPositiveValuesOfArray();
-
-        printLargerElements();
-
-        printAdjacentElements(array);
-
-        printLargestElement(array);
-
-        printSmallestPositiveElement(array);
-
-        printNumOfDifferentElenents(array);
-
-        reversePrintArray(array);
-
-        printReversedArray(array);
-
-        printRearengedArray(array);
-
-        cycleAndPrintArray(array);
-
-        swapMinMaxAndPrintArray(array);
-
-        removeElementInIndexAndPrint(array, 3);
-
-        printElementsWithNoDuplicate(array);
-
+//        System.out.println("Enter array size.");
+//        printEvenIndexValues(scanner.nextInt());
+//
+//        System.out.println("Enter array size.");
+//        printElementsWithEvenValue(scanner.nextInt());
+//
+//        printPositiveValuesOfArray();
+//
+//        printLargerElements();
+//
+//        printAdjacentElements(array);
+//
+//        printLargestElement(array);
+//
+//        printSmallestPositiveElement(array);
+//
+//        printNumOfDifferentElenents(array);
+//
+//        reversePrintArray(array);
+//
+//        printReversedArray(array);
+//
+//        printRearengedArray(array);
+//
+//        cycleAndPrintArray(array);
+//
+//        swapMinMaxAndPrintArray(array);
+//
+//        removeElementInIndexAndPrint(array, 3);
+//
+//        printElementsWithNoDuplicate(array);
+//
         moveZeroesToRight(array);
     }
 
@@ -121,14 +122,9 @@ public class Main {
         String[] newArray = new String[array.length];
         for (int i = 0, j = 0; i < array.length - 1; i++) {
             if (array[i] * array[i + 1] > 0) {
-                if (j != 0) {
-                    if (Arrays.toString(array).contains(array[i] + " " + array[i + 1])) continue;
-                    newArray[j] = array[i] + " " + array[i + 1];
-                    j++;
-                } else {
-                    newArray[j] = array[i] + " " + array[i + 1];
-                    j++;
-                }
+                if (Arrays.toString(newArray).contains(array[i] + " " + array[i + 1])) continue;
+                newArray[j] = array[i] + " " + array[i + 1];
+                j++;
             }
         }
         for (String s : newArray) {
@@ -164,8 +160,16 @@ public class Main {
      * @param array
      */
     private static void printSmallestPositiveElement(int[] array) {
-        int min = array[0];
-        for (int i = 1; i < array.length; i++) {
+        int min;
+        int index = 0;
+        while (true) {
+            if (array[index] >= 1) {
+                min = array[index];
+                break;
+            }
+            index++;
+        }
+        for (int i = index + 1; i < array.length; i++) {
             if (array[i] < min && array[i] > 0) {
                 min = array[i];
             }
@@ -207,7 +211,7 @@ public class Main {
      * @param array
      */
     private static void printReversedArray(int[] array) {
-        for (int i = 0, temp; i <= array.length / 2; i++) {
+        for (int i = 0, temp; i < array.length / 2; i++) {
             temp = array[i];
             array[i] = array[array.length - 1 - i];
             array[array.length - 1 - i] = temp;
@@ -284,11 +288,16 @@ public class Main {
      * @param index
      */
     private static void removeElementInIndexAndPrint(int[] array, int index) {
+        if (index >= array.length) {
+            System.out.println("Index is invalid");
+            return;
+        }
         for (int i = index; i < array.length - 1; i++) {
             array[i] = array[i + 1];
         }
-        for (int value : array) {
-            System.out.print(value + " ");
+        for (int i = 0; i < array.length - 1; i++) {
+            System.out.print(array[i] + " ");
+
         }
     }
 
@@ -314,18 +323,19 @@ public class Main {
     /**
      * task16
      * moving zeroes in given array to end of array and print array
+     *
      * @param array
      */
     private static void moveZeroesToRight(int[] array) {
+        int count = 0;
         for (int i = 0; i < array.length; i++) {
-            if (array[i] != 0) continue;
-            for (int j = i + 1; j < array.length; j++) {
-                if (array[j] == 0) {
-                    continue;
-                }
-                array[i] = array[j];
-                array[j] = 0;
-                break;
+            if (array[i] == 0) {
+                count++;
+                continue;
+            }
+            array[i - count] = array[i];
+            if(i != 0) {
+                array[i] = 0;
             }
         }
         for (int value : array) {
